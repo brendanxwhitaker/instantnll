@@ -24,6 +24,7 @@ from allennlp.training.trainer import Trainer
 from allennlp.predictors import SentenceTaggerPredictor
 torch.manual_seed(1)
 
+@DatasetReader.register('instantnll')
 class InstDatasetReader(DatasetReader):
     """
     DatasetReader for NER tagging data, one sentence per line, like
@@ -58,7 +59,8 @@ class InstDatasetReader(DatasetReader):
                     ent_types.append(ent_type)
                 yield self.text_to_instance([Token(word) for word in sentence], ent_types)
 
-class LstmTagger(Model):
+@Model.register('instantnll')
+class EntityTagger(Model):
     def __init__(self,
                  word_embeddings: TextFieldEmbedder,
                  encoder: Seq2SeqEncoder,
@@ -109,11 +111,15 @@ HIDDEN_DIM = 6
 
 token_embedding = Embedding(num_embeddings=vocab.get_vocab_size('tokens'),
                             embedding_dim=EMBEDDING_DIM)
+
+# Pretrained embedding. 
+pretrained_embedding = Embedding(pretrained_file=os.path.abspath('../../data/instantnll/GoogleNews-vectors-negative300.bin')
+
 word_embeddings = BasicTextFieldEmbedder({"tokens": token_embedding})
 
 lstm = PytorchSeq2SeqWrapper(torch.nn.LSTM(EMBEDDING_DIM, HIDDEN_DIM, batch_first=True))
 
-model = LstmTagger(word_embeddings, lstm, vocab)
+model = EntityTagger(word_embeddings, lstm, vocab)
 
 if torch.cuda.is_available():
     cuda_device = 0
