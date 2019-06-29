@@ -33,9 +33,6 @@ def main(checks):
         try:
             run("./scripts/check_large_files.sh 2", shell=True, check=True)
         except CalledProcessError:
-            try:
-                run("./check_large_files.sh 2", shell=True, check=True)
-            except CalledProcessError:    
                 print("CalledProcessError")
         print("check large files passed")
 
