@@ -6,19 +6,19 @@ from allennlp.modules.seq2seq_encoders.seq2seq_encoder import Seq2SeqEncoder
 @Seq2SeqEncoder.register("CosineEncoder")
 class CosineEncoder(Seq2SeqEncoder):
     """
-    This class applies the `FeedForward` to each item in sequences.
+    This class applies the `SimRel` to each item in sequences.
     """
-    def __init__(self, feedforward: FeedForward) -> None:
+    def __init__(self, simrel: SimRel) -> None:
         super().__init__()
-        self._feedforward = feedforward
+        self._simrel = simrel
 
     @overrides
     def get_input_dim(self) -> int:
-        return self._feedforward.get_input_dim()
+        return self._simrel.get_input_dim()
 
     @overrides
     def get_output_dim(self) -> int:
-        return self._feedforward.get_output_dim()
+        return self._simrel.get_output_dim()
 
     @overrides
     def is_bidirectional(self) -> bool:
@@ -40,7 +40,7 @@ class CosineEncoder(Seq2SeqEncoder):
         A tensor of shape (batch_size, timesteps, output_dim).
         """
         if mask is None:
-            return self._feedforward(inputs)
+            return self._simrel(inputs)
         else:
-            outputs = self._feedforward(inputs)
+            outputs = self._simrel(inputs)
             return outputs * mask.unsqueeze(dim=-1).float()
