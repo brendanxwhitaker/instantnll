@@ -134,7 +134,12 @@ class SimpleTagger(Model):
         embedded_text_input = self.text_field_embedder(tokens)
         batch_size, sequence_length, _ = embedded_text_input.size()
         mask = get_text_field_mask(tokens)
+        
+        # encoder could take as input a third argument, class_avgs, which is just a list of 3 vectors, 
+        # the average vectors of the classes. 
         encoded_text = self.encoder(embedded_text_input, mask)
+ 
+        # encoded_text = [(<sim with *>, <sim with !>, <sim with others>),...]
 
         logits = self.tag_projection_layer(encoded_text)
         reshaped_log_probs = logits.view(-1, self.num_classes)
@@ -144,7 +149,17 @@ class SimpleTagger(Model):
 
         output_dict = {"logits": logits, "class_probabilities": class_probabilities}
 
+        """
+        I just want to compute embeddings of each token. Then I will average the embedding vectors
+        within classes, and use that as the predictor. At test time, we compute simrel between 
+        our class avg vectors and each new word. If it's above some threshold, we label it as that
+        class. If it's above both thresholds, it picks one at random. 
+        """
+
+        # If we have gold labels:
         if tags is not None:
+            # Loss needs to be some measure of how far away the newly labeled words (if they are in a class)
+            # are from the previous class averages. 
             loss = sequence_cross_entropy_with_logits(logits, tags, mask)
             for metric in self.metrics.values():
                 metric(logits, tags, mask.float())
