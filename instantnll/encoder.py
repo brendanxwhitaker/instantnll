@@ -32,12 +32,12 @@ class CosineEncoder(Seq2SeqEncoder):
         Parameters
         ----------
         inputs : ``torch.Tensor``, required.
-            A tensor of shape (batch_size, timesteps, input_dim)
+            A tensor of shape (batch_size, input_dim)
         mask : ``torch.LongTensor``, optional (default = None).
-            A tensor of shape (batch_size, timesteps).
+            A tensor of shape (batch_size).
         Returns
         -------
-        A tensor of shape (batch_size, timesteps, output_dim).
+        A tensor of shape (batch_size, output_dim).
         """
         if mask is None:
             return self._simrel(inputs)
