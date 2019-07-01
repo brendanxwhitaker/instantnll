@@ -12,4 +12,4 @@ This model takes as input plaintext with some named entities prefixed with `*` a
 
 ## TODO
 
-Write some test cases for the `CosineSimilarity` module.  
+Write some test cases for the `SimRel` module.
