@@ -23,16 +23,17 @@ class TestSimRel(AllenNlpTestCase):
     def test_forward_gives_correct_output(self):
         params = Params({
                 'input_dim': 2,
-                'num_classes': 3,
+                'num_classes': 1,
                 })
         simrel = SimRel.from_params(params)
 
         constant_init = Initializer.from_params(Params({"type": "constant", "val": 1.}))
         initializer = InitializerApplicator([(".*", constant_init)])
-        initializer(feedforward)
+        initializer(simrel)
 
         input_tensor = torch.FloatTensor([[-3, 1]])
-        output = feedforward(input_tensor).data.numpy()
+        avg_tensor_list = [torch.FloatTensor([5, 5])]
+        output = simrel(input_tensor, avg_tensor_list).data.numpy()
         assert output.shape == (1, 3)
         # This output was checked by hand - ReLU makes output after first hidden layer [0, 0, 0],
         # which then gets a bias added in the second layer to be [1, 1, 1].

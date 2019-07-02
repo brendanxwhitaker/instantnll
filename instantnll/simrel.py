@@ -38,7 +38,7 @@ class SimRel(torch.nn.Module, FromParams):
 
     def forward(self, inputs: torch.Tensor, class_avgs: List[torch.LongTensor]) -> torch.Tensor:
         # pylint: disable=arguments-differ
-        assert self._output_dim = len(self.class_avgs)
+        assert self._output_dim == len(self.class_avgs)
         cos_sim = CosineSimilarity()
    
         """
