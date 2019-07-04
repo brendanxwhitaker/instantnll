@@ -42,7 +42,10 @@ class EntityTagger(Model):
         super().__init__(vocab)
         self.word_embeddings = word_embeddings
         self.encoder = encoder
-        self.class_avgs = {}
+        self.label_vocab = vocab.get_index_to_token_vocabulary(namespace='labels')
+
+        inf_vec = torch.Tensor([float('-inf')] * encoder.get_input_dim())
+        self.class_avgs = [inf_vec.clone() for i in range(len(self.label_vocab))]
 
         self.hidden2tag = torch.nn.Linear(in_features=encoder.get_output_dim(),
                                           out_features=vocab.get_vocab_size('labels'))
@@ -58,17 +61,20 @@ class EntityTagger(Model):
                 sentence: Dict[str, torch.Tensor],
                 labels: torch.Tensor = None) -> Dict[str, torch.Tensor]:
 
+        print("===DEBUG===")
+        print(labels)
+        print("===DEBUG===")
+
         mask = get_text_field_mask(sentence)
         embeddings = self.word_embeddings(sentence)
         class_avgs = self.class_avgs
-        encoder_out = self.encoder(embeddings, class_avgs, mask)
+        encoder_out = self.encoder(embeddings, labels, class_avgs, mask)
         tag_logits = self.hidden2tag(encoder_out)
         output = {"tag_logits": tag_logits}
 
         if labels is not None:
             self.accuracy(tag_logits, labels, mask)
             output["loss"] = sequence_cross_entropy_with_logits(tag_logits, labels, mask)
-
         return output
 
     def get_metrics(self, reset: bool = False) -> Dict[str, float]:
