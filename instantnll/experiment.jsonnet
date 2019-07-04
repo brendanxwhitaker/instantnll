@@ -19,12 +19,11 @@
             }
         },
         "encoder": {
-            "type": "gru",
-            "input_size": 210,
-            "hidden_size": 300,
-            "num_layers": 2,
-            "dropout": 0.5,
-            "bidirectional": true
+            "type": "CosineEncoder",
+            "simrel": {
+                "input_dim": 300,
+                "num_classes": 3,
+            },
         },
     },
     
