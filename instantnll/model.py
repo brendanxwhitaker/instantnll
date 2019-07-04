@@ -27,6 +27,9 @@ from allennlp.training.metrics import CategoricalAccuracy
 from allennlp.data.iterators import BucketIterator
 from allennlp.training.trainer import Trainer
 from allennlp.predictors import SentenceTaggerPredictor
+
+from dataset_reader import InstDatasetReader
+from encoder import CosineEncoder
 torch.manual_seed(1)
 
 @Model.register('instantnll')
@@ -39,22 +42,26 @@ class EntityTagger(Model):
         super().__init__(vocab)
         self.word_embeddings = word_embeddings
         self.encoder = encoder
+        self.class_avgs = {}
 
         self.hidden2tag = torch.nn.Linear(in_features=encoder.get_output_dim(),
                                           out_features=vocab.get_vocab_size('labels'))
 
         self.accuracy = CategoricalAccuracy()
 
+        print("===DEBUG===")
+        print(vocab)
+        print(vocab.get_index_to_token_vocabulary(namespace='labels'))
+        print("===DEBUG===")
+
     def forward(self,
                 sentence: Dict[str, torch.Tensor],
                 labels: torch.Tensor = None) -> Dict[str, torch.Tensor]:
 
         mask = get_text_field_mask(sentence)
-
         embeddings = self.word_embeddings(sentence)
-
-        encoder_out = self.encoder(embeddings, mask)
-
+        class_avgs = self.class_avgs
+        encoder_out = self.encoder(embeddings, class_avgs, mask)
         tag_logits = self.hidden2tag(encoder_out)
         output = {"tag_logits": tag_logits}
 
