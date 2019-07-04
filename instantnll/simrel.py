@@ -2,6 +2,7 @@
 A similarity/relatedness computation against a fixed number of class avg vectors. 
 """
 from typing import List, Union
+from numpy.testing import assert_almost_equal
 
 import torch
 
@@ -35,10 +36,13 @@ class SimRel(torch.nn.Module, FromParams):
     def get_input_dim(self):
         return self.input_dim
 
-    def forward(self, inputs: torch.Tensor, class_avgs: List[torch.LongTensor]) -> torch.Tensor:
+    def forward(self, 
+                inputs: torch.Tensor, 
+                labels: torch.Tensor, 
+                class_avgs: List[torch.LongTensor]) -> torch.Tensor:
         # pylint: disable=arguments-differ
         assert self._output_dim == len(class_avgs)
-        cos_sim = CosineSimilarity()
+        cosine_similarity = CosineSimilarity()
    
         """
         I want to loop over inputs vectors, so each row of inputs. Recall there are (batch_size,) rows. 
@@ -54,12 +58,32 @@ class SimRel(torch.nn.Module, FromParams):
         it will label it as a nontrivial entity, even if it's really far away from everything. This is
         bad behavior. So maybe a SimRel threshold parameter is a better approach.  
         """ 
+   
+        print("===TEST===")
+        print(class_avgs[0])
+        if True in torch.isinf(class_avgs[0]):
+            print("Infinite")
+        print("===TEST===") 
         
         output = []
         for vec in inputs:
             simvals = []
             for class_vec in class_avgs:
-                simvals.append(cos_sim(vec, class_vec))
+                if True in torch.isinf(class_vec):
+                    print(vec)
+                    print(cosine_similarity(vec,vec))
+                    simvals.append(torch.Tensor(1.0))
+                else: 
+                    simvals.append(cosine_similarity(vec, class_vec))
+                
+                # Update `class_avgs`.
+                # We need to pass the labels for this sentence to SimRel. 
+                """
+                for class_vec in class_avgs:
+                    if True in torch.isinf(class_vec):
+                        class_vec = 
+                """
+ 
             output.append(torch.stack(simvals))
         output = torch.stack(output)    # Make torch.FloatTensor
         return output

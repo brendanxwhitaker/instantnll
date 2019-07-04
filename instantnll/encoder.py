@@ -30,6 +30,7 @@ class CosineEncoder(Seq2SeqEncoder):
     @overrides
     def forward(self,  # pylint: disable=arguments-differ
                 inputs: torch.Tensor,
+                labels: torch.Tensor,
                 class_avgs: List[torch.Tensor],
                 mask: torch.LongTensor = None) -> torch.Tensor:
         """
@@ -44,7 +45,7 @@ class CosineEncoder(Seq2SeqEncoder):
         A tensor of shape (batch_size, output_dim).
         """
         if mask is None:
-            return self._simrel(inputs, class_avgs)
+            return self._simrel(inputs, labels, class_avgs)
         else:
-            outputs = self._simrel(inputs, class_avgs)
+            outputs = self._simrel(inputs, labels, class_avgs)
             return outputs * mask.unsqueeze(dim=-1).float()
