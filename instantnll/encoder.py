@@ -2,6 +2,7 @@ import torch
 from overrides import overrides
 
 from allennlp.modules.seq2seq_encoders.seq2seq_encoder import Seq2SeqEncoder
+from .simrel import SimRel
 
 @Seq2SeqEncoder.register("CosineEncoder")
 class CosineEncoder(Seq2SeqEncoder):

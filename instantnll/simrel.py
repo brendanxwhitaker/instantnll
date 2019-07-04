@@ -10,7 +10,6 @@ from allennlp.common.checks import ConfigurationError
 from allennlp.nn import Activation
 from allennlp.modules.similarity_functions import CosineSimilarity
 
-
 class SimRel(torch.nn.Module, FromParams):
     """
     This ``Module`` applies a simple similarity/relatedness computation to each input vector
