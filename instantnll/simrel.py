@@ -53,5 +53,5 @@ class SimRel(torch.nn.Module, FromParams):
             for class_vec in class_avgs:
                 simvals.append(cos_sim(vec, class_vec))
             output.append(torch.stack(simvals))
-        output = torch.stack(output)
+        output = torch.stack(output)    # Make torch.FloatTensor
         return output
