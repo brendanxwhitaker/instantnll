@@ -1,4 +1,6 @@
-
+"""
+Old code, replaced by config file use in ``model.py``. 
+"""
 def main():
 
     reader = InstDatasetReader()

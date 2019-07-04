@@ -44,6 +44,15 @@ class SimRel(torch.nn.Module, FromParams):
         I want to loop over inputs vectors, so each row of inputs. Recall there are (batch_size,) rows. 
         For each row/vector, I want to compute the cosine similarity of that vector with every vector
         in class_avgs. 
+
+        We must treat the case where we have seen none of the nontrivial classes yet, where we have
+        seen only some of them, and where we have seen all of them.
+
+        Perhaps it doesn't make much sense to train on the trivial class. Yes it doesn't make sense
+        to train on the trivial class, because then, in the case where the token currently being tagged
+        is farther from the trivial class avg vector than it is from the nontrivial class avg vectors, 
+        it will label it as a nontrivial entity, even if it's really far away from everything. This is
+        bad behavior. So maybe a SimRel threshold parameter is a better approach.  
         """ 
         
         output = []

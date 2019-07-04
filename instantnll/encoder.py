@@ -1,8 +1,10 @@
+from typing import Iterator, List, Dict
+
 import torch
 from overrides import overrides
 
 from allennlp.modules.seq2seq_encoders.seq2seq_encoder import Seq2SeqEncoder
-from .simrel import SimRel
+from simrel import SimRel
 
 @Seq2SeqEncoder.register("CosineEncoder")
 class CosineEncoder(Seq2SeqEncoder):
@@ -28,6 +30,7 @@ class CosineEncoder(Seq2SeqEncoder):
     @overrides
     def forward(self,  # pylint: disable=arguments-differ
                 inputs: torch.Tensor,
+                class_avgs: List[torch.Tensor],
                 mask: torch.LongTensor = None) -> torch.Tensor:
         """
         Parameters
@@ -41,7 +44,7 @@ class CosineEncoder(Seq2SeqEncoder):
         A tensor of shape (batch_size, output_dim).
         """
         if mask is None:
-            return self._simrel(inputs)
+            return self._simrel(inputs, class_avgs)
         else:
-            outputs = self._simrel(inputs)
+            outputs = self._simrel(inputs, class_avgs)
             return outputs * mask.unsqueeze(dim=-1).float()

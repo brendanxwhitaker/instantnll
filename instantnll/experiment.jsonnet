@@ -13,8 +13,8 @@
             "token_embedders": {
                 "tokens": {
                     "type": "embedding",
-                    "embedding_dim": 300,
-                    "pretrained_file": "~/packages/data/instantnll/GoogleNews-vectors-negative300.txt",
+                    "embedding_dim": 100,
+                    "pretrained_file": "~/packages/data/instantnll/top_10000_emb.txt",
                 },
             }
         },
@@ -28,10 +28,10 @@
     },
     
     "iterator":{
-        "type":"bucket"
+        "type": "bucket",
+        "sorting_keys": [["sentence", "num_tokens"]],
     },
     "trainer":{
-        "type":"default",
         "optimizer":{
             "type":"adam"
         }
