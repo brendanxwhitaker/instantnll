@@ -10,6 +10,7 @@
             // Technically you could put a "type": "basic" here,
             // but that's the default TextFieldEmbedder, so doing so
             // is optional.
+            "type": "debug",
             "token_embedders": {
                 "tokens": {
                     "type": "embedding",
@@ -28,8 +29,8 @@
     },
     
     "iterator":{
-        "type": "bucket",
-        "sorting_keys": [["sentence", "num_tokens"]],
+        "type": "basic",
+        "batch_size": 10,
     },
     "trainer":{
         "optimizer":{

@@ -8,7 +8,7 @@ import numpy as np
 import shutil
 import tempfile
 
-from allennlp.commands.train import train_model
+from allennlp_debug.train import train_model
 from allennlp.common.params import Params
 from allennlp.data import Instance
 from allennlp.data.fields import TextField, SequenceLabelField
@@ -30,6 +30,8 @@ from allennlp.predictors import SentenceTaggerPredictor
 
 from dataset_reader import InstDatasetReader
 from encoder import CosineEncoder
+from allennlp_debug.text_field_embedder import BasicTextFieldEmbedder
+from allennlp_debug.embedding import Embedding
 torch.manual_seed(1)
 
 @Model.register('instantnll')
@@ -63,10 +65,14 @@ class EntityTagger(Model):
 
         print("===DEBUG===")
         print(labels)
+        print("Sentence:", sentence)
         print("===DEBUG===")
 
         mask = get_text_field_mask(sentence)
         embeddings = self.word_embeddings(sentence)
+        print("===DEBUG===")
+        print("Shape of embeddings", embeddings.shape) 
+        print("===DEBUG===") 
         class_avgs = self.class_avgs
         encoder_out = self.encoder(embeddings, labels, class_avgs, mask)
         tag_logits = self.hidden2tag(encoder_out)
