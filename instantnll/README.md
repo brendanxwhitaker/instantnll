@@ -1,3 +1,13 @@
+# Notes
+
+The `batch_size` is measured in number of input sentences, which the `DatasetReader` determines by breaking on newlines. Empty lines count as sentences. Thus
+```
+I woke up this morning.
+
+It was awful.
+```
+counts as three sentences, so with a `batch_size` of `3`, we would only need one batch for our entire input. 
+
 # TODO
 
 Write a good battery of tests for the `SimRel` module. 

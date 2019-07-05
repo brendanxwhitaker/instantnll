@@ -60,11 +60,13 @@ class SimRel(torch.nn.Module, FromParams):
         """ 
    
         print("===TEST===")
-        print(class_avgs[0])
+        # print(class_avgs[0])
         if True in torch.isinf(class_avgs[0]):
             print("Infinite")
         print("===TEST===") 
-        
+        print("Shape of inputs", inputs.shape)       
+
+ 
         output = []
         for vec in inputs:
             simvals = []

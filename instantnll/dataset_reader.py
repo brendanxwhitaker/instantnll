@@ -41,6 +41,9 @@ class InstDatasetReader(DatasetReader):
 
     def text_to_instance(self, tokens: List[Token], ent_types: List[str] = None) -> Instance:
         sentence_field = TextField(tokens, self.token_indexers)
+        print("===DEBUG===")
+        print("Sentence_field:", sentence_field)
+        print("===DEBUG===")
         fields = {"sentence": sentence_field}
         if ent_types:
             label_field = SequenceLabelField(labels=ent_types, sequence_field=sentence_field)
