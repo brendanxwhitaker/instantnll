@@ -1,5 +1,6 @@
 from typing import Dict
 
+import copy
 import shutil
 import tempfile
 
@@ -109,23 +110,26 @@ class EntityTagger(Model):
 
 if __name__ == '__main__':
     params = Params.from_file('experiment.jsonnet')
+    parms = params.duplicate()
     serialization_dir = tempfile.mkdtemp()
     model = train_model(params, serialization_dir)
     label_vocab = model.vocab.get_index_to_token_vocabulary(namespace='labels')
+    
+    predpath = parms.pop(key="validation_data_path")
 
     # Make predictions
     predictor = InstPredictor(model, dataset_reader=InstDatasetReader())
-    with open("../data/validate.txt", "r") as text_file:
+    with open(predpath, "r") as text_file:
         lines = text_file.readlines()
     all_text = " ".join(lines)
     logits = predictor.predict(all_text)['tag_logits']
     np.set_printoptions(suppress=True)
-    print("tag_logits:\n", np.array(logits))
+    # print("tag_logits:\n", np.array(logits))
     tag_ids = np.argmax(logits, axis=-1)
 
     dataset_reader = InstDatasetReader()
 
-    for instance in dataset_reader._read("../data/validate.txt"):
+    for instance in dataset_reader._read(predpath):
         tokenlist = list(instance['sentence'])
         for i, token in enumerate(tokenlist):
             print(label_vocab[tag_ids[i]], token)
