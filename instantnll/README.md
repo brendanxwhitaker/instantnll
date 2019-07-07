@@ -1,0 +1,40 @@
+# Notes
+
+The `batch_size` is measured in number of input sentences, which the `DatasetReader` determines by breaking on newlines. Empty lines count as sentences. Thus
+```
+I woke up this morning.
+
+It was awful.
+```
+counts as three sentences, so with a `batch_size` of `3`, we would only need one batch for our entire input. 
+
+# Done 
+
+Figure out exactly what the `hidden2tag` function should do, and if we need to compute logits from similarity values. Not needed. DONE.
+
+Compute `class_avgs` by using a dict for the labels seen in vocab initialization in the `Model`. Perhaps pass an indicator dict to `CosineEncoder`, and then to `SimRel` which tells `SimRel` whether or not to just set the similarity to 1. This would treat the case where we haven't seen any examples of that class yet (similarity of a vector with nothing/itself should be 1). DONE. 
+
+Question: is the above the best way to implement this? Maybe initialize the existing data structure to `float('-inf')` instead.  DONE. 
+
+Figure out why allennlp's `cosine_similarity` returns a tensor of a weird dimension. I was passing multiple vectors. DONE. 
+
+Add a tokenizer to `dataset_reader`. DONE.
+
+Figure out what `tag_logits` should be.  DONE. 
+
+# TODO
+
+Shift `encoder_out` so that all values are between 0 and 2 (currently -1 to 1). 
+
+Write a good battery of tests for the `SimRel` module. 
+
+Write tests for `CosineEncoder`.
+
+## Low priority  
+
+Figure out what the intializer does in the `FeedForward` module test file. 
+
+Figure out how `allennlp` is able to import absolute paths to their package submodules from within other submodules. 
+
+Figure out why there is an extra namespace in the vocabulary called `tags` in addition to the one that I want (`labels`). 
+
