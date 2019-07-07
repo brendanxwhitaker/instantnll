@@ -1,10 +1,10 @@
 from typing import Iterator, List, Dict
 
-import torch
 import logging
+import torch
 
-from allennlp.commands.train import train_model
-from allennlp.common.params import Params
+from overrides import overrides
+
 from allennlp.common.tqdm import Tqdm
 from allennlp.data import Instance
 from allennlp.data.fields import TextField, SequenceLabelField
@@ -40,7 +40,7 @@ class InstDatasetReader(DatasetReader):
     tokenizer : ``Tokenizer``, optional (default=``WordTokenizer()``)
         We use this ``Tokenizer`` for the text.  See :class:`Tokenizer`.
     """
-    def __init__(self, 
+    def __init__(self,
                  tokens_per_instance: int = None,
                  tokenizer: Tokenizer = None,
                  token_indexers: Dict[str, TokenIndexer] = None,
@@ -51,8 +51,9 @@ class InstDatasetReader(DatasetReader):
         self._tokenizer = tokenizer or WordTokenizer(word_splitter=splitter)
         self._tokens_per_instance = tokens_per_instance
 
+    @overrides
     def text_to_instance(self, tokens: List[Token], ent_types: List[str] = None) -> Instance:
-        
+
         tokens = [Token(str(token).lower()) for token in tokens]
         sentence_field = TextField(tokens, self._token_indexers)
         fields = {"sentence": sentence_field}
@@ -87,10 +88,10 @@ class InstDatasetReader(DatasetReader):
             for token in line: # Type: allennlp.data.tokenizers.token.Token
                 token = str(token)
                 ent_type = token[0]
-                if ent_type not in ['!','*']:
+                if ent_type not in ['!', '*']:
                     ent_type = '#'   # Indicates irrelevant non-tagged tokens.
-                else: 
-                    token = token[1:] 
+                else:
+                    token = token[1:]
                 sentence.append(token)
                 ent_types.append(ent_type)
             if sentence != []:
