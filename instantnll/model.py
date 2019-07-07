@@ -20,6 +20,7 @@ from allennlp.training.metrics import CategoricalAccuracy
 from allennlp.predictors import SentenceTaggerPredictor
 
 from dataset_reader import InstDatasetReader
+from encoder import CosineEncoder
 torch.manual_seed(1)
 
 @Model.register('instantnll')

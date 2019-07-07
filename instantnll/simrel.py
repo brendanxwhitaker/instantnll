@@ -85,7 +85,7 @@ class SimRel(torch.nn.Module, FromParams):
 
                         # Otherwise, we set the similarity value to -1.
                         else:
-                            simvals.append(torch.Tensor(-1.0))
+                            simvals.append(torch.tensor(-1.0))
 
                     else:
                         simvals.append(cosine_similarity(vec, class_vec))
