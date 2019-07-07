@@ -12,11 +12,11 @@ import torch.optim.lr_scheduler
 
 from allennlp.common import Params
 from allennlp.common.checks import ConfigurationError, parse_cuda_device
-from allennlp.common.util import (dump_metrics, gpu_memory_mb, peak_memory_mb,
+from allennlp_debug.util import (dump_metrics, gpu_memory_mb, peak_memory_mb,
                                   lazy_groups_of)
 from allennlp.common.tqdm import Tqdm
 from allennlp.data.instance import Instance
-from allennlp.data.iterators.data_iterator import DataIterator, TensorDict
+from allennlp_debug.data_iterator import DataIterator, TensorDict
 from allennlp.models.model import Model
 from allennlp.nn import util as nn_util
 from allennlp.training.checkpointer import Checkpointer
@@ -316,6 +316,9 @@ class Trainer(TrainerBase):
                                          total=num_training_batches)
         cumulative_batch_size = 0
         for batch_group in train_generator_tqdm:
+            print("===DEBUG===")
+            print("batch_group:", batch_group)
+            print("===DEBUG===")
             batches_this_epoch += 1
             self._batch_num_total += 1
             batch_num_total = self._batch_num_total
