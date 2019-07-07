@@ -13,3 +13,13 @@ This model takes as input plaintext with some named entities prefixed with `*` a
 ## TODO
 
 Write some test cases for the `SimRel` module.
+
+Write `Model` test cases. 
+
+Add BERT support. 
+
+Add character-level embedding support. 
+
+Handle OOV words. 
+
+Add `min_pretrained_embeddings` parameter for static embeddings. 
