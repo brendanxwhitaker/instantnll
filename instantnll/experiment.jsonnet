@@ -3,7 +3,7 @@
         "type": "instantnll",
     },
     "train_data_path":"../data/train_small.txt",
-    "validation_data_path":"../data/validate.txt",
+    "validation_data_path":"../data/validate_cities.txt",
     "model":{
         "type": "instantnll",
         "word_embeddings": {
