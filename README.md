@@ -8,7 +8,7 @@ The purpose of this project is to build a model which solves a highly simplified
 
 ## Usage
 
-The experiment configuration file can be found at `instantnll/experiment.jsonnet`. A config file is shown below. The fields which need to be modified in order to run are shown in bold.  
+The experiment configuration file can be found at `<package_root>/instantnll/experiment.jsonnet`. A config file is shown below. The fields which need to be modified in order to run are shown in bold.  
 
 <pre>
 {
