@@ -1,4 +1,4 @@
-from typing import Iterator, List, Dict
+from typing import List
 
 import torch
 from overrides import overrides
@@ -49,7 +49,7 @@ class CosineEncoder(Seq2SeqEncoder):
         A tensor of shape (batch_size, output_dim).
         Modifies
         --------
-        class_avgs : the class average vectors. 
+        class_avgs : the class average vectors.
         """
         if mask is None:
             return self._simrel(inputs, labels, class_avgs) # Modifies `class_avgs`.

@@ -57,7 +57,7 @@ class EntityTagger(Model):
 
         mask = get_text_field_mask(sentence)
         embeddings = self.word_embeddings(sentence)
-        
+
         if self.debug:
             for embedding in embeddings[0]: # Grab from first line in batch.
                 print("First component:", embedding[0])
@@ -103,7 +103,7 @@ if __name__ == '__main__':
     for instance in dataset_reader._read("../data/validate.txt"):
         tokenlist = list(instance['sentence'])
         labellist = list(instance['labels'])
-        for i, token in enumerate(tokens):
+        for i, token in enumerate(tokenlist):
             print(labellist[i], token)
     # for i, tag_id in enumerate(tag_ids):
     print("labels:", [model.vocab.get_token_from_index(i, 'labels') for i in tag_ids])
