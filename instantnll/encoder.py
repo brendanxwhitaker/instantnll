@@ -31,21 +31,28 @@ class CosineEncoder(Seq2SeqEncoder):
     def forward(self,  # pylint: disable=arguments-differ
                 inputs: torch.Tensor,
                 labels: torch.Tensor,
-                class_avgs: List[torch.Tensor],
+                class_avgs: List[torch.Tensor], # MODIFIED.
                 mask: torch.LongTensor = None) -> torch.Tensor:
         """
         Parameters
         ----------
         inputs : ``torch.Tensor``, required.
+            A tensor of shape (batch_size, instance_length, input_dim)
+        labels : ``torch.Tensor``, required.
             A tensor of shape (batch_size, input_dim)
+        class_avgs : ``List[torch.Tensor]``, required.
+            A list of tensors of shape (input_dim)
         mask : ``torch.LongTensor``, optional (default = None).
-            A tensor of shape (batch_size).
+            A tensor of shape (batch_size, instance_length).
         Returns
         -------
         A tensor of shape (batch_size, output_dim).
+        Modifies
+        --------
+        class_avgs : the class average vectors. 
         """
         if mask is None:
-            return self._simrel(inputs, labels, class_avgs)
+            return self._simrel(inputs, labels, class_avgs) # Modifies `class_avgs`.
         else:
-            outputs = self._simrel(inputs, labels, class_avgs)
+            outputs = self._simrel(inputs, labels, class_avgs) # Modifies `class_avgs`.
             return outputs * mask.unsqueeze(dim=-1).float()

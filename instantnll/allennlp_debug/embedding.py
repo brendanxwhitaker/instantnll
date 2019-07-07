@@ -105,12 +105,15 @@ class Embedding(TokenEmbedder):
         self._pretrained_file = pretrained_file
 
         self.output_dim = projection_dim or embedding_dim
+        print("=======================================================================================================================================================")
 
         if weight is None:
+            print("MAKING UNIFORM WEIGHTS. BAD")
             weight = torch.FloatTensor(num_embeddings, embedding_dim)
             self.weight = torch.nn.Parameter(weight, requires_grad=trainable)
             torch.nn.init.xavier_uniform_(self.weight)
         else:
+            print("GOOD WEIGHTS.")
             if weight.size() != (num_embeddings, embedding_dim):
                 raise ConfigurationError("A weight matrix was passed with contradictory embedding shapes.")
             self.weight = torch.nn.Parameter(weight, requires_grad=trainable)

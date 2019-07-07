@@ -8,7 +8,8 @@ import numpy as np
 import shutil
 import tempfile
 
-from allennlp_debug.train import train_model
+# from allennlp.commands.train import train_model
+from allennlp.commands.train import train_model
 from allennlp.common.params import Params
 from allennlp.data import Instance
 from allennlp.data.fields import TextField, SequenceLabelField
@@ -19,7 +20,6 @@ from allennlp.data.tokenizers import Token
 from allennlp.data.vocabulary import Vocabulary
 from allennlp.models import Model
 from allennlp.modules.text_field_embedders import BasicTextFieldEmbedder, TextFieldEmbedder
-from allennlp.modules.token_embedders import Embedding
 from allennlp.modules.seq2seq_encoders import Seq2SeqEncoder
 from allennlp.nn.util import get_text_field_mask, sequence_cross_entropy_with_logits
 
@@ -30,8 +30,6 @@ from allennlp.predictors import SentenceTaggerPredictor
 
 from dataset_reader import InstDatasetReader
 from encoder import CosineEncoder
-from allennlp_debug.text_field_embedder import BasicTextFieldEmbedder
-from allennlp_debug.embedding import Embedding
 torch.manual_seed(1)
 
 @Model.register('instantnll')
@@ -53,29 +51,41 @@ class EntityTagger(Model):
                                           out_features=vocab.get_vocab_size('labels'))
 
         self.accuracy = CategoricalAccuracy()
+        self.debug = False
 
-        print("===DEBUG===")
-        print(vocab)
-        print(vocab.get_index_to_token_vocabulary(namespace='labels'))
-        print("===DEBUG===")
+        if self.debug:
+            print("===MODEL DEBUG===")
+            print("Number of embeddings:", self.word_embeddings._token_embedders['tokens'].num_embeddings)
+            # print("Embedding weights", self.word_embeddings._token_embedders['tokens'].weight)
+            print("vocab:", vocab)
+            print("index to token vocab:", vocab.get_index_to_token_vocabulary(namespace='labels'))
+            print("===MODEL DEBUG===")
 
     def forward(self,
                 sentence: Dict[str, torch.Tensor],
                 labels: torch.Tensor = None) -> Dict[str, torch.Tensor]:
 
-        print("===DEBUG===")
-        print(labels)
-        print("Sentence:", sentence)
-        print("===DEBUG===")
-
         mask = get_text_field_mask(sentence)
         embeddings = self.word_embeddings(sentence)
-        print("===DEBUG===")
-        print("Shape of embeddings", embeddings.shape) 
-        print("===DEBUG===") 
+        
+        if self.debug:
+            for embedding in embeddings[0]: # Grab from first line in batch. 
+                print("First component:", embedding[0])
+
         class_avgs = self.class_avgs
-        encoder_out = self.encoder(embeddings, labels, class_avgs, mask)
-        tag_logits = self.hidden2tag(encoder_out)
+        encoder_out = self.encoder(embeddings, labels, class_avgs, mask) # Modifies `class_avgs`.
+        tag_logits = encoder_out
+        # tag_logits = self.hidden2tag(encoder_out)
+        if self.debug:
+            print("===MODEL DEBUG===")
+            # print(embeddings[0][0])
+            print("Labels:", labels)
+            print("Sentence:", sentence)
+            print("Shape of embeddings:", embeddings.shape)
+            print("encoder_out:", encoder_out)
+            print("tag_logits:", tag_logits)
+            print("tag_logits shape:", tag_logits.shape)
+            print("===MODEL DEBUG===")
         output = {"tag_logits": tag_logits}
 
         if labels is not None:
@@ -93,9 +103,9 @@ if __name__ == '__main__':
 
     # Make predictions
     predictor = SentenceTaggerPredictor(model, dataset_reader=InstDatasetReader())
-    tag_logits = predictor.predict("The dog ate the apple")['tag_logits']
-    print(tag_logits)
+    tag_logits = predictor.predict("I lived in Munich last summer.")['tag_logits']
+    print("tag_logits:\n", np.array(tag_logits))
     tag_ids = np.argmax(tag_logits, axis=-1)
-    print([model.vocab.get_token_from_index(i, 'labels') for i in tag_ids])
+    print("labels:", [model.vocab.get_token_from_index(i, 'labels') for i in tag_ids])
 
     shutil.rmtree(serialization_dir)

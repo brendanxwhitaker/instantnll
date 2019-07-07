@@ -2,15 +2,15 @@
     "dataset_reader":{
         "type": "instantnll",
     },
-    "train_data_path":"../data/train.txt",
-    "validation_data_path":"../data/validate.txt",
+    "train_data_path":"../data/train_small.txt",
+    "validation_data_path":"../data/train_small.txt",
     "model":{
         "type": "instantnll",
         "word_embeddings": {
             // Technically you could put a "type": "basic" here,
             // but that's the default TextFieldEmbedder, so doing so
             // is optional.
-            "type": "debug",
+            "type": "basic",
             "token_embedders": {
                 "tokens": {
                     "type": "embedding",
@@ -23,7 +23,7 @@
             "type": "CosineEncoder",
             "simrel": {
                 "input_dim": 300,
-                "num_classes": 3,
+                "num_classes": 2,
             },
         },
     },
@@ -35,6 +35,12 @@
     "trainer":{
         "optimizer":{
             "type":"adam"
+        },
+        "num_epochs": 1,
+    },
+    "vocabulary":{
+        "pretrained_files": {
+            "tokens": "~/packages/data/instantnll/top_10000_emb.txt",
         }
-    }
+    },
 }
