@@ -103,9 +103,18 @@ if __name__ == '__main__':
 
     # Make predictions
     predictor = SentenceTaggerPredictor(model, dataset_reader=InstDatasetReader())
-    tag_logits = predictor.predict("I lived in Munich last summer.")['tag_logits']
-    print("tag_logits:\n", np.array(tag_logits))
+    tag_logits = predictor.predict("I lived in *Munich last summer. *Germany has a relaxing, slow summer lifestyle.")['tag_logits']
+    # print("tag_logits:\n", np.array(tag_logits))
     tag_ids = np.argmax(tag_logits, axis=-1)
+
+    dataset_reader = InstDatasetReader()
+
+    for instance in dataset_reader._read("../data/validate.txt"):
+        tokens = list(instance['sentence'])
+        labels = list(instance['labels'])
+        for i, token in enumerate(tokens):
+            print(labels[i], token)
+    # for i, tag_id in enumerate(tag_ids):    
     print("labels:", [model.vocab.get_token_from_index(i, 'labels') for i in tag_ids])
 
     shutil.rmtree(serialization_dir)

@@ -2,8 +2,8 @@
     "dataset_reader":{
         "type": "instantnll",
     },
-    "train_data_path":"../data/train_small.txt",
-    "validation_data_path":"../data/train_small.txt",
+    "train_data_path":"../data/validate.txt",
+    "validation_data_path":"../data/validate.txt",
     "model":{
         "type": "instantnll",
         "word_embeddings": {
@@ -23,7 +23,7 @@
             "type": "CosineEncoder",
             "simrel": {
                 "input_dim": 300,
-                "num_classes": 2,
+                "num_classes": 3,
             },
         },
     },
