@@ -1,5 +1,7 @@
 # instantnll
 
+[![codecov](https://codecov.io/gh/brendanxwhitaker/instantnll/branch/master/graph/badge.svg)](https://codecov.io/gh/brendanxwhitaker/instantnll)
+
 In development. 
 
 ## Abstract
