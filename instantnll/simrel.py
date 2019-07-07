@@ -35,8 +35,8 @@ class SimRel(torch.nn.Module, FromParams):
         return self.input_dim
 
     def forward(self,
-                inputs: torch.Tensor, # Shape: (batch_size, #_tokens_in_longest_inst, input_dim)
-                labels: torch.Tensor, # Shape: (batch_size, #_tokens_in_longest_inst)
+                inputs: torch.Tensor, # Shape: (batch_size, sequence_length, input_dim)
+                labels: torch.Tensor, # Shape: (batch_size, sequence_length)
                 class_avgs: List[torch.LongTensor]) -> torch.Tensor:
         # pylint: disable=arguments-differ
         if self.debug:
@@ -99,7 +99,7 @@ class SimRel(torch.nn.Module, FromParams):
                 batch_out.append(torch.stack(simvals))
             output.append(torch.stack(batch_out))
         output = torch.stack(output)    # Make torch.FloatTensor
-        return output
+        return output # Shape: (batch_size, sequence_length, num_classes)
 
     def _print_class_avgs(self, class_avgs: List[torch.Tensor]) -> None:
 

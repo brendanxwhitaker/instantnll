@@ -50,11 +50,12 @@ class InstDatasetReader(DatasetReader):
         splitter = SimpleWordSplitter()
         self._tokenizer = tokenizer or WordTokenizer(word_splitter=splitter)
         self._tokens_per_instance = tokens_per_instance
+        self._lower = False
 
     @overrides
     def text_to_instance(self, tokens: List[Token], ent_types: List[str] = None) -> Instance:
-
-        tokens = [Token(str(token).lower()) for token in tokens]
+        if self._lower:
+            tokens = [Token(str(token).lower()) for token in tokens]
         sentence_field = TextField(tokens, self._token_indexers)
         fields = {"sentence": sentence_field}
         if ent_types:
@@ -69,7 +70,8 @@ class InstDatasetReader(DatasetReader):
 
         with open(file_path, "r") as text_file:
             instance_strings = text_file.readlines()
-            instance_strings = [string.lower() for string in instance_strings]
+            if self._lower:
+                instance_strings = [string.lower() for string in instance_strings]
 
         if self._tokens_per_instance is not None:
             all_text = " ".join([x.replace("\n", " ").strip() for x in instance_strings])
@@ -89,7 +91,7 @@ class InstDatasetReader(DatasetReader):
                 token = str(token)
                 ent_type = token[0]
                 if ent_type not in ['!', '*']:
-                    ent_type = '#'   # Indicates irrelevant non-tagged tokens.
+                    ent_type = '_'   # Indicates irrelevant non-tagged tokens.
                 else:
                     token = token[1:]
                 sentence.append(token)

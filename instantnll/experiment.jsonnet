@@ -2,7 +2,7 @@
     "dataset_reader":{
         "type": "instantnll",
     },
-    "train_data_path":"../data/validate.txt",
+    "train_data_path":"../data/train_small.txt",
     "validation_data_path":"../data/validate.txt",
     "model":{
         "type": "instantnll",
@@ -14,8 +14,8 @@
             "token_embedders": {
                 "tokens": {
                     "type": "embedding",
-                    "embedding_dim": 100,
-                    "pretrained_file": "~/packages/data/instantnll/top_10000_emb.txt",
+                    "embedding_dim": 300,
+                    "pretrained_file": "~/packages/data/instantnll/GoogleNews-vectors-negative300_SUBSET.txt",
                 },
             }
         },
@@ -40,7 +40,7 @@
     },
     "vocabulary":{
         "pretrained_files": {
-            "tokens": "~/packages/data/instantnll/top_10000_emb.txt",
+            "tokens": "~/packages/data/instantnll/GoogleNews-vectors-negative300_SUBSET.txt",
         }
     },
 }
