@@ -37,6 +37,7 @@ Write tests for `CosineEncoder`.
 
 Change `class_avgs` from `List[torch.Tensor]` to `torch.Tensor`. 
 
+Normalize `tag_logits` by setting any negative similarity values to zero (worse than orthogonal is essentially useless to us). 
 
 ## Low priority  
 
