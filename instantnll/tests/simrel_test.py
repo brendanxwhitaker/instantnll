@@ -32,13 +32,13 @@ class TestSimRel(AllenNlpTestCase):
         initializer = InitializerApplicator([(".*", constant_init)])
         initializer(simrel)
 
-        input_tensor = torch.FloatTensor([[-3, 1]])
-        avg_tensor_list = [torch.FloatTensor([5, 5])]
-        output = simrel(input_tensor, avg_tensor_list).data.numpy()
+        input_tensor = torch.FloatTensor([[[-3, 1]]])
+        labels = torch.Tensor([[1]])
+        class_avgs = [torch.FloatTensor([5, 5])]
+        output = simrel(input_tensor, labels, class_avgs).data.numpy()
         print("===OUTPUT===")
         print(output)
         print("============")
-        assert output.shape == (1, 1)
-        # This output was checked by hand - ReLU makes output after first hidden layer [0, 0, 0],
-        # which then gets a bias added in the second layer to be [1, 1, 1].
-        assert_almost_equal(output, torch.FloatTensor([[-0.44721356]])) 
+        assert output.shape == (1, 1, 1)
+        # This output was checked by hand - 
+        assert_almost_equal(output, torch.FloatTensor([[[-0.44721356]]])) 

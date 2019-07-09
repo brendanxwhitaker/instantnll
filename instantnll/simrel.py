@@ -26,7 +26,7 @@ class SimRel(torch.nn.Module, FromParams):
         super(SimRel, self).__init__()
         self.input_dim = input_dim
         self._output_dim = num_classes
-        self.debug = False
+        self.debug = True
 
     def get_output_dim(self):
         return self._output_dim
@@ -35,9 +35,10 @@ class SimRel(torch.nn.Module, FromParams):
         return self.input_dim
 
     def forward(self,
-                inputs: torch.Tensor, # Shape: (batch_size, sequence_length, input_dim)
-                labels: torch.Tensor, # Shape: (batch_size, sequence_length)
-                class_avgs: List[torch.LongTensor]) -> torch.Tensor:
+                inputs: torch.Tensor, # Shape: (batch_size, seq_len, input_dim)
+                labels: torch.Tensor, # Shape: (batch_size, seq_len)
+                class_avgs: List[torch.LongTensor] # Shape: (num_classes, input_dim)
+    ) -> torch.Tensor:
         # pylint: disable=arguments-differ
         if self.debug:
             print("===SIMREL DEBUG===")

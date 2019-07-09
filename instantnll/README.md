@@ -47,3 +47,4 @@ Figure out how `allennlp` is able to import absolute paths to their package subm
 
 Figure out why there is an extra namespace in the vocabulary called `tags` in addition to the one that I want (`labels`). 
 
+Figure out when it is proper to use keyword arguments instead of positional arguments. Should I use them for every method I write?
