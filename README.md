@@ -82,8 +82,6 @@ Run with `python3 model.py` while in the `<package_root>/instantnll` directory. 
 
 ## TODO
 
-Write some test cases for the `SimRel` module.
-
 Write `Model` test cases. 
 
 Add BERT support. 
