@@ -9,7 +9,7 @@ from allennlp.common.checks import ConfigurationError
 from allennlp.nn import InitializerApplicator, Initializer, Activation
 from allennlp.common.testing import AllenNlpTestCase
 
-from instantnll import SimRel
+from instantnll import CosineEncoder
 
 class TestSimRel(AllenNlpTestCase):
     def test_can_construct_from_params(self):
