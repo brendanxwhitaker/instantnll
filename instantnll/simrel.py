@@ -36,7 +36,7 @@ class SimRel(torch.nn.Module, FromParams):
     def forward(self,
                 inputs: torch.Tensor,               # Shape: (batch_size, seq_len, input_dim)
                 labels: torch.Tensor,               # Shape: (batch_size, seq_len)
-                class_avgs: List[torch.LongTensor]  # Shape: (num_classes, input_dim)
+                class_avgs: torch.Tensor            # Shape: (num_classes, input_dim)
     ) -> torch.Tensor:                              # Shape: (batch_size, seq_len, num_classes)
         # pylint: disable=arguments-differ
         """
