@@ -6,7 +6,14 @@ I woke up this morning.
 
 It was awful.
 ```
-counts as three sentences, so with a `batch_size` of `3`, we would only need one batch for our entire input. 
+counts as three sentences, so with a `batch_size` of `3`, we would only need one batch for our entire input.
+
+ 
+        Perhaps it doesn't make much sense to train on the trivial class. Yes it doesn't make sense
+        to train on the trivial class, because then, in the case where the token currently being tagged
+        is farther from the trivial class avg vector than it is from the nontrivial class avg vectors,
+        it will label it as a nontrivial entity, even if it's really far away from everything. This is
+        bad behavior. So maybe a SimRel threshold parameter is a better approach.
 
 # Done 
 
@@ -28,10 +35,9 @@ Shift `encoder_out` so that all values are between 0 and 2 (currently -1 to 1). 
 
 Make `model` and `dataset_reader` cased.  DONE. 
 
+Write a good battery of tests for the `SimRel` module. DONE. 
 
 # TODO
-
-Write a good battery of tests for the `SimRel` module. 
 
 Write tests for `CosineEncoder`.
 
@@ -47,3 +53,8 @@ Figure out how `allennlp` is able to import absolute paths to their package subm
 
 Figure out why there is an extra namespace in the vocabulary called `tags` in addition to the one that I want (`labels`). 
 
+Figure out when it is proper to use keyword arguments instead of positional arguments. Should I use them for every method I write?
+    
+Write SimRel test cases for negative values and higher sequence length, batch\_size. 
+
+Write CosineEncoder test cases for mask. 
