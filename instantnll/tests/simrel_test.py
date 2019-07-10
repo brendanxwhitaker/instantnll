@@ -54,5 +54,5 @@ class TestSimRel(AllenNlpTestCase):
         class_avgs = [torch.FloatTensor([3, 4, 5, 6, 7]), torch.FloatTensor([25,63,55,8,2.4]), torch.FloatTensor([1.003,1.005,6.578,3.4, 9.999])]
         output = simrel(input_tensor, labels, class_avgs).data.numpy()
         assert output.shape == (1, 1, 3)
-        # This output was checked via WolframAlpha 
+        # This output was checked via WolframAlpha: `N[1 - CosineDistance[(1,2,3,4,5),(3,4,5,6,7)], 10]` 
         assert_almost_equal(output, torch.FloatTensor([[[0.9864400504, 0.5535960766, 0.9296758768]]])) 
