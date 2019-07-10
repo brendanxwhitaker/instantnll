@@ -40,7 +40,7 @@ class EntityTagger(Model):
         self.label_vocab = vocab.get_index_to_token_vocabulary(namespace='labels')
 
         inf_vec = torch.Tensor([float('-inf')] * encoder.get_input_dim())
-        self.class_avgs = [inf_vec.clone() for i in range(len(self.label_vocab))]
+        self.class_avgs = torch.Tensor([inf_vec.clone() for i in range(len(self.label_vocab))])
 
         self.hidden2tag = torch.nn.Linear(in_features=encoder.get_output_dim(),
                                           out_features=vocab.get_vocab_size('labels'))
