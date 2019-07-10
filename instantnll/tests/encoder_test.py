@@ -10,16 +10,22 @@ from allennlp.nn import InitializerApplicator, Initializer, Activation
 from allennlp.common.testing import AllenNlpTestCase
 
 from instantnll import CosineEncoder
+from instantnll import SimRel
 
-class TestSimRel(AllenNlpTestCase):
+class TestCosineEncoder(AllenNlpTestCase):
     def test_can_construct_from_params(self):
         params = Params({
                 'input_dim': 2,
                 'num_classes': 3,
                 })
         simrel = SimRel.from_params(params)
-        assert simrel.get_output_dim() == 3
-        assert simrel.get_input_dim() == 2
+        params = Params({
+                'simrel': simrel,
+                })
+        encoder = CosineEncoder(simrel)
+        assert encoder.get_output_dim() == 3
+        assert encoder.get_input_dim() == 2
+        assert encoder.is_bidirectional() == False
 
     def test_forward_gives_correct_output(self):
         params = Params({
