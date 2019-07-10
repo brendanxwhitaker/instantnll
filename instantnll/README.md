@@ -6,7 +6,14 @@ I woke up this morning.
 
 It was awful.
 ```
-counts as three sentences, so with a `batch_size` of `3`, we would only need one batch for our entire input. 
+counts as three sentences, so with a `batch_size` of `3`, we would only need one batch for our entire input.
+
+ 
+        Perhaps it doesn't make much sense to train on the trivial class. Yes it doesn't make sense
+        to train on the trivial class, because then, in the case where the token currently being tagged
+        is farther from the trivial class avg vector than it is from the nontrivial class avg vectors,
+        it will label it as a nontrivial entity, even if it's really far away from everything. This is
+        bad behavior. So maybe a SimRel threshold parameter is a better approach.
 
 # Done 
 
@@ -49,3 +56,5 @@ Figure out why there is an extra namespace in the vocabulary called `tags` in ad
 Figure out when it is proper to use keyword arguments instead of positional arguments. Should I use them for every method I write?
     
 Write SimRel test cases for negative values and higher sequence length, batch\_size. 
+
+Write CosineEncoder test cases for mask. 

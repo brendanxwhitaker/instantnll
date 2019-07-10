@@ -17,8 +17,8 @@ class SimRel(torch.nn.Module, FromParams):
     ----------
     input_dim : ``int``
         The dimensionality of the input.  We assume the input has shape ``(batch_size, input_dim)``.
-    class_avgs : ``List[torch.LongTensor]``
-        The average of the embedding vectors for each seen class. Has shape (num_classes,).
+    num_classes : ``int``
+        The number of classes seen in the data, including an `other` class for non-relevant words.
     """
     def __init__(self, input_dim: int,
                  num_classes: int) -> None:
@@ -26,7 +26,6 @@ class SimRel(torch.nn.Module, FromParams):
         super(SimRel, self).__init__()
         self.input_dim = input_dim
         self._output_dim = num_classes
-        self.debug = True
 
     def get_output_dim(self):
         return self._output_dim
@@ -40,37 +39,16 @@ class SimRel(torch.nn.Module, FromParams):
                 class_avgs: List[torch.LongTensor]  # Shape: (num_classes, input_dim)
     ) -> torch.Tensor:                              # Shape: (batch_size, seq_len, num_classes)
         # pylint: disable=arguments-differ
-        if self.debug:
-            print("===SIMREL DEBUG===")
-            print("Are we training:", self.training)
-            print("===SIMREL DEBUG===")
-        if self._output_dim != len(class_avgs):
-            print("===================")
-            print("Parameter `num_classes` in config doesn't match the total number of classes \
-                  seen in the union of the training and validation datasets. ")
-            print(" Is there an example of every class? Try setting `num_classes` to " \
-                  + str(len(class_avgs)) + ".")
-            print("===================")
-            assert self._output_dim == len(class_avgs)
-        cosine_similarity = CosineSimilarity()
-
         """
         Computes the cosine similarity of each word vector with every vector in class_avgs.
-
-        Perhaps it doesn't make much sense to train on the trivial class. Yes it doesn't make sense
-        to train on the trivial class, because then, in the case where the token currently being tagged
-        is farther from the trivial class avg vector than it is from the nontrivial class avg vectors,
-        it will label it as a nontrivial entity, even if it's really far away from everything. This is
-        bad behavior. So maybe a SimRel threshold parameter is a better approach.
         """
-
+        cosine_similarity = CosineSimilarity()
         class_counts = [0] * len(class_avgs)
 
         output = []
         for i, batch in enumerate(inputs):
             batch_out = []
             for j, vec in enumerate(batch):
-
                 simvals = []
                 for k, class_vec in enumerate(class_avgs):
 
@@ -87,24 +65,15 @@ class SimRel(torch.nn.Module, FromParams):
                         # Otherwise, we set the similarity value to -1.
                         else:
                             simvals.append(torch.tensor(-1.0))
-
                     else:
                         simvals.append(cosine_similarity(vec, class_vec))
                         if self.training and labels[i][j] == k:
                             class_vec_multiple = class_vec * class_counts[k]
                             class_avgs[k] = (class_vec_multiple + vec) / (class_counts[k] + 1)
                             class_counts[k] += 1
-                if self.debug:
-                    self._print_class_avgs(class_avgs)
 
                 batch_out.append(torch.stack(simvals))
             output.append(torch.stack(batch_out))
         output = torch.stack(output)    # Make torch.FloatTensor
         return output # Shape: (batch_size, sequence_length, num_classes)
 
-    def _print_class_avgs(self, class_avgs: List[torch.Tensor]) -> None:
-
-        for class_avg in class_avgs:
-            # print(hex(id(class_avg)), end=' ')
-            print(float(class_avg[0]), end=' ')
-        print("")
