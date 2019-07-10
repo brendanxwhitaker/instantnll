@@ -37,9 +37,9 @@ Make `model` and `dataset_reader` cased.  DONE.
 
 Write a good battery of tests for the `SimRel` module. DONE. 
 
-# TODO
+Change `class_avgs` from `List[torch.Tensor]` to `torch.Tensor`. DONE. 
 
-Change `class_avgs` from `List[torch.Tensor]` to `torch.Tensor`. 
+# TODO
 
 Normalize `tag_logits` by setting any negative similarity values to zero (worse than orthogonal is essentially useless to us). 
 
