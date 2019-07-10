@@ -31,15 +31,13 @@ Figure out what `tag_logits` should be.  DONE.
 
 Modify `model._hidden_to_tag()` so that it doesn't modify its argument. DONE.
 
-Shift `encoder_out` so that all values are between 0 and 2 (currently -1 to 1). DONE.
+Shift `encoder_out` so that all values are between 0 and 2 (currently -1 to 1). DONE. REVERTED.
 
 Make `model` and `dataset_reader` cased.  DONE. 
 
 Write a good battery of tests for the `SimRel` module. DONE. 
 
 # TODO
-
-Write tests for `CosineEncoder`.
 
 Change `class_avgs` from `List[torch.Tensor]` to `torch.Tensor`. 
 
