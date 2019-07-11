@@ -9,11 +9,13 @@ It was awful.
 counts as three sentences, so with a `batch_size` of `3`, we would only need one batch for our entire input.
 
  
-        Perhaps it doesn't make much sense to train on the trivial class. Yes it doesn't make sense
-        to train on the trivial class, because then, in the case where the token currently being tagged
-        is farther from the trivial class avg vector than it is from the nontrivial class avg vectors,
-        it will label it as a nontrivial entity, even if it's really far away from everything. This is
-        bad behavior. So maybe a SimRel threshold parameter is a better approach.
+Perhaps it doesn't make much sense to train on the trivial class. Yes it doesn't make sense
+to train on the trivial class, because then, in the case where the token currently being tagged
+is farther from the trivial class avg vector than it is from the nontrivial class avg vectors,
+it will label it as a nontrivial entity, even if it's really far away from everything. This is
+bad behavior. So maybe a SimRel threshold parameter is a better approach.
+
+The prediction block in `run.py` transforms the input such that we only ever have one batch. 
 
 # Done 
 
@@ -37,11 +39,21 @@ Make `model` and `dataset_reader` cased.  DONE.
 
 Write a good battery of tests for the `SimRel` module. DONE. 
 
-Change `class_avgs` from `List[torch.Tensor]` to `torch.Tensor`. DONE. 
+Change `class_avgs` from `List[torch.Tensor]` to `torch.Tensor`. DONE. REVERTED, bad idea.  
+
+Normalize `tag_logits` by setting any negative similarity values to zero (worse than orthogonal is essentially useless to us). I.e. Apply relu. DONE.  
+
+Write `EntityTagger.decode()` function. DONE.  
 
 # TODO
 
-Normalize `tag_logits` by setting any negative similarity values to zero (worse than orthogonal is essentially useless to us). 
+Put in notebook. 
+
+Write test case for relu. 
+
+Use F1 metric.
+
+Figure out how to extend vocabulary at test time. 
 
 ## Low priority  
 
@@ -56,3 +68,7 @@ Figure out when it is proper to use keyword arguments instead of positional argu
 Write SimRel test cases for negative values and higher sequence length, batch\_size. 
 
 Write CosineEncoder test cases for mask. 
+
+Initialize OOV words to the `0` vector instead of randomly. Then modify cosine distance to compute similarity of zero for zero vector, unless both vectors are zero, in which case it should be 1. 
+
+Transform logits to `class_probabilities` via a softmax so that sim values form a probability distribution. 
