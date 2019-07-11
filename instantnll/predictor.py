@@ -23,6 +23,9 @@ class InstPredictor(Predictor):
         self._lower = False
 
     def predict(self, sentence: str) -> JsonDict:
+        """
+        Ultimately returns an `output_dict` from the model.
+        """
         if self._lower:
             return self.predict_json({"sentence" : sentence.lower()})
         else:
@@ -36,5 +39,4 @@ class InstPredictor(Predictor):
         """
         sentence = json_dict["sentence"]
         tokens = self._tokenizer.split_words(sentence)
-        print("instantnll.predictor: ", tokens)
         return self._dataset_reader.text_to_instance(tokens)
