@@ -3,7 +3,7 @@
         "type": "inst_dataset_reader",
     },
     "train_data_path":"../data/train_small.txt",
-    "validation_data_path":"../data/validate_drugs.txt",
+    "validation_data_path":"../data/validate_cities.txt",
     "model":{
         "type": "inst_entity_tagger",
         "word_embeddings": {
@@ -30,7 +30,7 @@
     
     "iterator":{
         "type": "basic",
-        "batch_size": 1,
+        "batch_size": 10,
     },
     "trainer":{
         "optimizer":{
