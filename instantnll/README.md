@@ -47,19 +47,15 @@ Write `EntityTagger.decode()` function. DONE.
 
 Put in notebook. DONE. 
 
-
-
-
+Add color tag support in notebook output, and print nicely in a paragraph. DONE.  
 
 # TODO
 
-Add color tag support in notebook output, and print nicely in a paragraph. 
+Figure out how to extend vocabulary at test time. 
 
 Write test case for relu. 
 
 Use F1 metric.
-
-Figure out how to extend vocabulary at test time. 
 
 ## Low priority  
 
