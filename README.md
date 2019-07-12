@@ -86,7 +86,7 @@ Run with `python3 model.py` while in the `<package_root>/instantnll` directory. 
 
 Write `Model` test cases. 
 
-Create notebook. 
+Create notebook. DONE.  
 
 Work on hosting embeddings (what's MTL?, how does mt-dnn do it?)
 
