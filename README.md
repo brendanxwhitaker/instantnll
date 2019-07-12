@@ -10,6 +10,22 @@ The purpose of this project is to build a model which solves a highly simplified
 
 ## Usage
 
+The model can be run either from the command-line via the following command:
+
+```
+python3 run.py
+```
+
+while in the `<package_root>/instantnll/` directory, or by running the following notebook with jupyter:
+
+```
+instant.ipynb
+```
+
+### Configuration
+
+When running from the command line, modify the appropriate fields in `experiment.jsonnet`. When running from `instant.ipynb`, modify the appropriate fields in `template.jsonnet`. The `<>_data_path` fields fields should be left blank when running from the notebook. The notebook will fill them automatically once the `Params` object has been created by pointing to temporary files created with the user input during execution of the notebook cells. 
+
 The experiment configuration file can be found at `<package_root>/instantnll/experiment.jsonnet`. A config file is shown below. The fields which need to be modified in order to run are shown in bold.  
 
 <pre>
@@ -75,10 +91,6 @@ A small example dataset is given below:
 I lived in *Munich last summer. *Germany has a relaxing, slow summer lifestyle. One night, I got food poisoning and couldn't find !Tylenol to make the pain go away, they insisted I take !aspirin instead.
 ``` 
 Note the tags prepended to named entities of type `city` (`*`) and `drug` (`!`). 
-
-### Running
-
-Run with `python3 model.py` while in the `<package_root>/instantnll` directory. Currently all output is printed to console. No logging has been implemented yet, apart from that which is built into AllenNLP.  
 
 ## TODO
 
