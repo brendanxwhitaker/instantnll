@@ -45,9 +45,15 @@ Normalize `tag_logits` by setting any negative similarity values to zero (worse 
 
 Write `EntityTagger.decode()` function. DONE.  
 
+Put in notebook. DONE. 
+
+
+
+
+
 # TODO
 
-Put in notebook. 
+Add color tag support in notebook output, and print nicely in a paragraph. 
 
 Write test case for relu. 
 
