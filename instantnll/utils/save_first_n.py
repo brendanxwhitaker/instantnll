@@ -4,11 +4,9 @@ from preprocessing  import check_valid_file
 from preprocessing  import check_valid_dir
 
 import multiprocessing              as mp
-import tensorflow                   as tf 
 import pandas                       as pd
 import numpy                        as np
 
-from progressbar    import progressbar
 from tqdm           import tqdm
 
 import pyemblib

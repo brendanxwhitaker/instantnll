@@ -24,7 +24,6 @@ def main():
     all_text = " ".join(lines) # Makes it all 1 batch. 
     output_dict = predictor.predict(all_text)
     tags = output_dict['tags']
-    print(tags)
     dataset_reader = InstDatasetReader()
     
     with open("log.log", 'a') as log:

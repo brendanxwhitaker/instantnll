@@ -42,7 +42,7 @@ class InstEntityTagger(Model):
                                           out_features=vocab.get_vocab_size('labels'))
 
         self.accuracy = CategoricalAccuracy()
-        self.debug = True
+        self.debug = False
 
         if self.debug:
             print("===MODEL DEBUG===")
@@ -110,7 +110,6 @@ class InstEntityTagger(Model):
             tags = [label_vocab[int(x)] for x in batch_argmaxs]
             all_tags.append(tags) 
         output_dict['tags'] = all_tags # Shape: (batch_size, seq_len)
-        print("All_tags:", all_tags)
         return output_dict
 
     #====1=========2=========3=========4=========5=========6=========7=========8=========9=========0
