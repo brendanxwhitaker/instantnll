@@ -31,6 +31,7 @@ def main():
             tokenlist = list(instance['sentence'])
             for i, token in enumerate(tokenlist):
                 log.write(tags[i] + str(token) + "\n")
+                print(tags[i] + str(token))
     shutil.rmtree(serialization_dir)
 
     
