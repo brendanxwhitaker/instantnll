@@ -45,12 +45,12 @@ class CosineEncoder(Seq2SeqEncoder):
         labels : ``torch.Tensor``, required.
             A tensor of shape (batch_size, input_dim)
         class_avgs : ``List[torch.Tensor]``, required.
-            A list of tensors of shape (input_dim)
+            A list of Tensors. Has shape (num_classes, input_dim)
         mask : ``torch.LongTensor``, optional (default = None).
             A tensor of shape (batch_size, instance_length).
         Returns
         -------
-        A tensor of shape (batch_size, output_dim).
+        A tensor of shape (batch_size, seq_len, output_dim).
         Modifies
         --------
         class_avgs : the class average vectors.

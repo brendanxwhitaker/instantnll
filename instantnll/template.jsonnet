@@ -2,8 +2,8 @@
     "dataset_reader":{
         "type": "inst_dataset_reader",
     },
-    "train_data_path":"../data/train_small.txt",
-    "validation_data_path":"../data/validate.txt",
+    "train_data_path":"",
+    "validation_data_path":"",
     "model":{
         "type": "inst_entity_tagger",
         "word_embeddings": {
