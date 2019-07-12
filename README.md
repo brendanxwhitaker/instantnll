@@ -82,7 +82,17 @@ Run with `python3 model.py` while in the `<package_root>/instantnll` directory. 
 
 ## TODO
 
+*In order of priority.*
+
 Write `Model` test cases. 
+
+Create notebook. 
+
+Work on hosting embeddings (what's MTL?, how does mt-dnn do it?)
+
+Write beamer slides. 
+
+Add `min_pretrained_embeddings` parameter for static embeddings, i.e. add functionality so predictions can be run an arbitrary number of times on made-up-on-the-spot test data (currently, you must pass in the validation data with the train data so it can add it to the vocabulary, even though it never trains on it, since we don't add labels for the validation data). 
 
 Add BERT support. 
 
@@ -90,4 +100,3 @@ Add character-level embedding support.
 
 Handle OOV words. 
 
-Add `min_pretrained_embeddings` parameter for static embeddings. 
