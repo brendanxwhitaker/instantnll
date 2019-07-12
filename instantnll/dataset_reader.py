@@ -19,7 +19,7 @@ torch.manual_seed(1)
 
 logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
-@DatasetReader.register('instantnll')
+@DatasetReader.register('inst_dataset_reader')
 class InstDatasetReader(DatasetReader):
     """
     DatasetReader for NER tagging data, one sentence per line, like
