@@ -11,7 +11,7 @@ from predictor import InstPredictor
 from dataset_reader import InstDatasetReader
 
 def main():
-    params = Params.from_file('exper_novalid.jsonnet')
+    params = Params.from_file('../configs/exper_novalid.jsonnet')
     parms = params.duplicate()
     serialization_dir = tempfile.mkdtemp()
     model = train_model(params, serialization_dir)
