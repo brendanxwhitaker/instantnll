@@ -3,7 +3,6 @@
         "type": "inst_dataset_reader",
     },
     "train_data_path":"",
-    "validation_data_path":"",
     "model":{
         "type": "inst_entity_tagger",
         "word_embeddings": {
