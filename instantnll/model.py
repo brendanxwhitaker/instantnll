@@ -42,14 +42,15 @@ class InstEntityTagger(Model):
                                           out_features=vocab.get_vocab_size('labels'))
 
         self.accuracy = CategoricalAccuracy()
-        self.debug = False
+        self.debug = True
 
         if self.debug:
             print("===MODEL DEBUG===")
-            # print("Number of embeddings:", self.word_embeddings._token_embedders['tokens'].num_embeddings)
+            print("Number of embeddings:", self.word_embeddings._token_embedders['tokens'].num_embeddings)
+            print("Token embedders:", self.word_embeddings._token_embedders)
             # print("Embedding weights", self.word_embeddings._token_embedders['tokens'].weight)
             print("vocab:", vocab)
-            print("index to token vocab:", vocab.get_index_to_token_vocabulary(namespace='labels'))
+            # print("index to token vocab:", vocab.get_index_to_token_vocabulary(namespace='labels'))
             print("===MODEL DEBUG===")
 
     #====1=========2=========3=========4=========5=========6=========7=========8=========9=========0
