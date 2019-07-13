@@ -3,7 +3,6 @@
         "type": "inst_dataset_reader",
     },
     "train_data_path":"../data/train_small.txt",
-    "validation_data_path":"../data/validate.txt",
     "model":{
         "type": "inst_entity_tagger",
         "word_embeddings": {
@@ -41,6 +40,9 @@
     "vocabulary":{
         "pretrained_files": {
             "tokens": "~/packages/data/instantnll/GoogleNews-vectors-negative300_SUBSET.txt",
+        },
+        "min_pretrained_embeddings": {
+            "tokens": 1
         }
     },
 }
