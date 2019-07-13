@@ -34,11 +34,11 @@ class InstEntityTagger(Model):
         self.class_avgs = [inf_vec.clone() for i in range(len(self.label_vocab))]
 
         self.accuracy = CategoricalAccuracy()
-        self.debug = False
+        self.debug = True
 
         if self.debug:
             print("===MODEL DEBUG===")
-            # print("Number of embeddings:", self.word_embeddings._token_embedders['tokens'].num_embeddings)
+            print("Number of embeddings:", self.word_embeddings._token_embedders['tokens'].num_embeddings)
             # print("Token embedders:", self.word_embeddings._token_embedders)
             # print("Embedding weights", self.word_embeddings._token_embedders['tokens'].weight)
             print("vocab:", vocab)
@@ -62,8 +62,11 @@ class InstEntityTagger(Model):
         if self.debug:
             print("===MODEL DEBUG===")
             # print(embeddings[0][0])
-            # print("Labels:", labels)
-            # print("Sentence:", sentence)
+            print("Labels:", labels)
+            print("Sentence:", sentence)
+            sent_tens = sentence['tokens']
+            for index in sent_tens[0]:
+                print(self.vocab.get_index_to_token_vocabulary(namespace='tokens')[int(index)])
             print("Shape of embeddings:", embeddings.shape)
             # print("encoder_out:", encoder_out)
             # print("tag_logits:", tag_logits)
