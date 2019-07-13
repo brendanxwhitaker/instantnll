@@ -17,31 +17,21 @@ def main():
 
     print("Done training:")
     test_path = "../data/validate.txt"
-    train_path = parms.pop(key="train_data_path")
+    train_path = parms.get(key="train_data_path")
 
     # Grab pretrained file.
-    vocab_params = parms.pop(key="vocabulary")
-    pretrained_files_params = vocab_params.pop(key="pretrained_files")
-    extension_pretrained_file = pretrained_files_params.pop(key="tokens")
+    vocab_params = parms.get(key="vocabulary")
+    pretrained_files_params = vocab_params.get(key="pretrained_files")
+    extension_pretrained_file = pretrained_files_params.get(key="tokens")
 
     # Get test vocab.
     reader = InstDatasetReader()
     test_dataset = reader.read(test_path) # Change to temp file.
-    train_dataset = reader.read(train_path) # Change to temp file.
-    extended_vocab = Vocabulary.from_instances(train_dataset + test_dataset)
+  
+    embedding_sources_mapping = {"word_embeddings.token_embedder_tokens": extension_pretrained_file}
+    model.vocab.extend_from_instances(params, test_dataset)
+    model.extend_embedder_vocab(embedding_sources_mapping)
     
-    """
-    # Extend vocabulary.
-    token_embedders = model.word_embeddings._token_embedders # pylint: disable=protected-access
-    embedding = token_embedders['tokens']
-    print("Pre num_embeddings:", embedding.num_embeddings)
-    namespace = 'tokens'
-    embedding.extend_vocab(extended_vocab, namespace, extension_pretrained_file)
-    print("Post num_embeddings:", embedding.num_embeddings)
-    token_embedders['tokens'] = embedding
-    model.word_embeddings._token_embedders = token_embedders # pylint: disable=protected-access
-    """
-
     print("Making preds.")
     # Make predictions
     predictor = InstPredictor(model, dataset_reader=InstDatasetReader())
