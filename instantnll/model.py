@@ -1,23 +1,18 @@
 from typing import Dict
 
-import copy
-
 import torch
 import numpy as np
 
 
 # from allennlp.commands.train import train_model
-from allennlp.common.params import Params
 from allennlp.data.vocabulary import Vocabulary
 from allennlp.models import Model
 from allennlp.modules.text_field_embedders import TextFieldEmbedder
 from allennlp.modules.seq2seq_encoders import Seq2SeqEncoder
 from allennlp.nn.util import get_text_field_mask, sequence_cross_entropy_with_logits
-
 from allennlp.training.metrics import CategoricalAccuracy
 
-from encoder import CosineEncoder
-from dataset_reader import InstDatasetReader
+from encoder import CosineEncoder # pylint: disable=no-name-in-module, unused-import
 torch.manual_seed(1)
 
 #========1=========2=========3=========4=========5=========6=========7=========8=========9=========0
@@ -38,16 +33,13 @@ class InstEntityTagger(Model):
         inf_vec = torch.Tensor([float('-inf')] * encoder.get_input_dim())
         self.class_avgs = [inf_vec.clone() for i in range(len(self.label_vocab))]
 
-        self.hidden2tag = torch.nn.Linear(in_features=encoder.get_output_dim(),
-                                          out_features=vocab.get_vocab_size('labels'))
-
         self.accuracy = CategoricalAccuracy()
-        self.debug = True
+        self.debug = False
 
         if self.debug:
             print("===MODEL DEBUG===")
-            print("Number of embeddings:", self.word_embeddings._token_embedders['tokens'].num_embeddings)
-            print("Token embedders:", self.word_embeddings._token_embedders)
+            # print("Number of embeddings:", self.word_embeddings._token_embedders['tokens'].num_embeddings)
+            # print("Token embedders:", self.word_embeddings._token_embedders)
             # print("Embedding weights", self.word_embeddings._token_embedders['tokens'].weight)
             print("vocab:", vocab)
             # print("index to token vocab:", vocab.get_index_to_token_vocabulary(namespace='labels'))
@@ -55,17 +47,7 @@ class InstEntityTagger(Model):
 
     #====1=========2=========3=========4=========5=========6=========7=========8=========9=========0
 
-    def _hidden_to_tag(self, encoder_out: torch.Tensor) -> torch.Tensor:
-        logits = [] 
-        for i in range(len(encoder_out)):
-            batch = []
-            for j in range(len(encoder_out[0])):
-                batch.append((encoder_out[i][j] + 1) / 2)
-            logits.append(torch.stack(batch))
-        return torch.stack(logits)
-
-    #====1=========2=========3=========4=========5=========6=========7=========8=========9=========0
-
+    # pylint: disable=arguments-differ
     def forward(self,
                 sentence: Dict[str, torch.Tensor],
                 labels: torch.Tensor = None) -> Dict[str, torch.Tensor]:
@@ -75,7 +57,6 @@ class InstEntityTagger(Model):
 
         class_avgs = self.class_avgs
         encoder_out = self.encoder(embeddings, labels, class_avgs, mask) # Modifies `class_avgs`.
-        
         tag_logits = encoder_out
         torch.nn.functional.relu(tag_logits, inplace=True)
         if self.debug:
@@ -95,21 +76,21 @@ class InstEntityTagger(Model):
             self.accuracy(tag_logits, labels, mask)
             output_dict["loss"] = sequence_cross_entropy_with_logits(tag_logits, labels, mask)
         return output_dict
-    
+
     #====1=========2=========3=========4=========5=========6=========7=========8=========9=========0
 
     def decode(self, output_dict: Dict[str, torch.Tensor]) -> Dict[str, torch.Tensor]:
         """
-        If there's a decode function, the predictor will try to use it.    
+        If there's a decode function, the predictor will try to use it.
         """
         # Shape: (batch_size, seq_len, num_classes)
-        logits = output_dict['tag_logits'] 
+        logits = output_dict['tag_logits']
         argmax_indices = np.argmax(logits, axis=-1)
         all_tags = []
-        for batch_argmaxs in argmax_indices: 
+        for batch_argmaxs in argmax_indices:
             label_vocab = self.vocab.get_index_to_token_vocabulary(namespace="labels")
             tags = [label_vocab[int(x)] for x in batch_argmaxs]
-            all_tags.append(tags) 
+            all_tags.append(tags)
         output_dict['tags'] = all_tags # Shape: (batch_size, seq_len)
         return output_dict
 

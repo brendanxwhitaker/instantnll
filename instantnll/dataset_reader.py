@@ -52,6 +52,7 @@ class InstDatasetReader(DatasetReader):
         self._tokens_per_instance = tokens_per_instance
         self._lower = False
 
+    # pylint: disable=arguments-differ
     @overrides
     def text_to_instance(self, tokens: List[Token], ent_types: List[str] = None) -> Instance:
         if self._lower:
