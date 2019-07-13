@@ -68,7 +68,7 @@ class SimRel(torch.nn.Module, FromParams):
                             simvals.append(torch.tensor(-1.0)) # pylint: disable=not-callable
                     else:
                         simvals.append(cosine_similarity(vec, class_vec))
-                        if self.training and labels[i][j] == k:
+                        if self.training and labels is not None and labels[i][j] == k:
                             class_vec_multiple = class_vec * class_counts[k]
                             class_avgs[k] = (class_vec_multiple + vec) / (class_counts[k] + 1)
                             class_counts[k] += 1
