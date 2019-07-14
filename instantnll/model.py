@@ -57,7 +57,7 @@ class InstEntityTagger(Model):
         if labels is not None:
             self.f_beta(tag_logits, labels, mask)
             self.accuracy(tag_logits, labels, mask)
-            
+
             output_dict["loss"] = sequence_cross_entropy_with_logits(tag_logits, labels, mask)
 
         return output_dict
