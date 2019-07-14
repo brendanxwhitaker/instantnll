@@ -65,7 +65,9 @@ Upload small embeddings.
 
 Write download script. 
 
-Get working in Colab. 
+Get working in Colab.
+
+Add nice display of metrics in both versions. 
 
 Add `argparse` in command-line version. 
 
