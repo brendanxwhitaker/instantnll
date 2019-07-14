@@ -2,8 +2,7 @@
     "dataset_reader":{
         "type": "inst_dataset_reader",
     },
-    "train_data_path":"",
-    "validation_data_path":"",
+    "train_data_path":"../data/train_small.txt",
     "model":{
         "type": "inst_entity_tagger",
         "word_embeddings": {
@@ -15,7 +14,7 @@
                 "tokens": {
                     "type": "embedding",
                     "embedding_dim": 300,
-                    "pretrained_file": "~/packages/data/instantnll/GoogleNews-vectors-negative300_SUBSET.txt",
+                    "pretrained_file": "~/packages/data/instantnll/GoogleNews-vectors-negative300_SUBSET_25000.txt",
                 },
             }
         },
@@ -40,7 +39,10 @@
     },
     "vocabulary":{
         "pretrained_files": {
-            "tokens": "~/packages/data/instantnll/GoogleNews-vectors-negative300_SUBSET.txt",
+            "tokens": "~/packages/data/instantnll/GoogleNews-vectors-negative300_SUBSET_25000.txt",
+        },
+        "min_pretrained_embeddings": {
+            "tokens": 1
         }
     },
 }

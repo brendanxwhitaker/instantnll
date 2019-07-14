@@ -49,9 +49,15 @@ Put in notebook. DONE.
 
 Add color tag support in notebook output, and print nicely in a paragraph. DONE.  
 
+Figure out how to extend vocabulary at test time.  DONE. 
+
+Lint existing modules. DONE.
+
 # TODO
 
-Figure out how to extend vocabulary at test time. 
+Write a prediction loop in run to continuously read in user input from command line, extend the vocabulary, and predict those new instances. 
+
+Adapt the prediction loop for the notebook. 
 
 Write test case for relu. 
 
