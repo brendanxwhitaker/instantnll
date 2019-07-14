@@ -33,6 +33,7 @@ class SimRel(torch.nn.Module, FromParams):
     def get_input_dim(self):
         return self.input_dim
 
+    # pylint: disable=bad-continuation
     def forward(self,
                 inputs: torch.Tensor,               # Shape: (batch_size, seq_len, input_dim)
                 labels: torch.Tensor,               # Shape: (batch_size, seq_len)
@@ -64,10 +65,10 @@ class SimRel(torch.nn.Module, FromParams):
 
                         # Otherwise, we set the similarity value to -1.
                         else:
-                            simvals.append(torch.tensor(-1.0))
+                            simvals.append(torch.tensor(-1.0)) # pylint: disable=not-callable
                     else:
                         simvals.append(cosine_similarity(vec, class_vec))
-                        if self.training and labels[i][j] == k:
+                        if self.training and labels is not None and labels[i][j] == k:
                             class_vec_multiple = class_vec * class_counts[k]
                             class_avgs[k] = (class_vec_multiple + vec) / (class_counts[k] + 1)
                             class_counts[k] += 1
@@ -76,4 +77,3 @@ class SimRel(torch.nn.Module, FromParams):
             output.append(torch.stack(batch_out))
         output = torch.stack(output)    # Make torch.FloatTensor
         return output # Shape: (batch_size, sequence_length, num_classes)
-
