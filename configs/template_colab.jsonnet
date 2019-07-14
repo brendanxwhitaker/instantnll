@@ -14,7 +14,7 @@
                 "tokens": {
                     "type": "embedding",
                     "embedding_dim": 300,
-                    "pretrained_file": "/content/instantnll/data/GoogleNews-vectors-negative300_SUBSET_60000.txt",
+                    "pretrained_file": "/content/instantnll/data/GoogleNews-vectors-negative300_SUBSET_100000.txt",
                 },
             }
         },
@@ -39,7 +39,7 @@
     },
     "vocabulary":{
         "pretrained_files": {
-            "tokens": "/content/instantnll/data/GoogleNews-vectors-negative300_SUBSET_60000.txt",
+            "tokens": "/content/instantnll/data/GoogleNews-vectors-negative300_SUBSET_100000.txt",
         }
     },
 }
