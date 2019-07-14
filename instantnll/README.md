@@ -59,15 +59,13 @@ Adapt the prediction loop for the notebook. DONE.
 
 Use F1 metric. DONE. 
 
+Upload small embeddings. DONE.  
+
+Write download script. DONE.  
+
+Get working in Colab. DONE. 
+
 # TODO
-
-Upload small embeddings. 
-
-Download link: https://1fichier.com/?46ho4icwewhjms2iy4h3
-
-Write download script. 
-
-Get working in Colab.
 
 Add nice display of metrics in both versions. 
 
