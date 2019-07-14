@@ -63,6 +63,8 @@ Use F1 metric. DONE.
 
 Upload small embeddings. 
 
+Download link: https://1fichier.com/?46ho4icwewhjms2iy4h3
+
 Write download script. 
 
 Get working in Colab.
