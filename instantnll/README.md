@@ -53,15 +53,27 @@ Figure out how to extend vocabulary at test time.  DONE.
 
 Lint existing modules. DONE.
 
+Write a prediction loop in run to continuously read in user input from command line, extend the vocabulary, and predict those new instances.  DONE. 
+
+Adapt the prediction loop for the notebook. DONE. 
+
+Use F1 metric. DONE. 
+
 # TODO
 
-Write a prediction loop in run to continuously read in user input from command line, extend the vocabulary, and predict those new instances. 
+Upload small embeddings. 
 
-Adapt the prediction loop for the notebook. 
+Write download script. 
+
+Get working in Colab. 
+
+Add `argparse` in command-line version. 
+
+Restructure experiments/configs. 
+
+Add BERT support. 
 
 Write test case for relu. 
-
-Use F1 metric.
 
 ## Low priority  
 
