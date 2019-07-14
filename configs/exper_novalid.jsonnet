@@ -14,7 +14,7 @@
                 "tokens": {
                     "type": "embedding",
                     "embedding_dim": 300,
-                    "pretrained_file": "~/packages/data/instantnll/GoogleNews-vectors-negative300_SUBSET.txt",
+                    "pretrained_file": "~/packages/data/instantnll/GoogleNews-vectors-negative300_SUBSET_25000.txt",
                 },
             }
         },
@@ -39,7 +39,7 @@
     },
     "vocabulary":{
         "pretrained_files": {
-            "tokens": "~/packages/data/instantnll/GoogleNews-vectors-negative300_SUBSET.txt",
+            "tokens": "~/packages/data/instantnll/GoogleNews-vectors-negative300_SUBSET_25000.txt",
         },
         "min_pretrained_embeddings": {
             "tokens": 1
