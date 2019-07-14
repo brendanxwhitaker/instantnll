@@ -3,7 +3,7 @@
         "type": "inst_dataset_reader",
     },
     "train_data_path":"../data/train_small.txt",
-    "validation_data_path":"../data/validate.txt",
+    "validation_data_path":"../data/validate_cities_tagged.txt",
     "model":{
         "type": "inst_entity_tagger",
         "word_embeddings": {
