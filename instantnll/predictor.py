@@ -3,7 +3,6 @@ from overrides import overrides
 from allennlp.common.util import JsonDict
 from allennlp.data import DatasetReader, Instance
 from allennlp.data.tokenizers.word_splitter import SimpleWordSplitter
-from allennlp.data.tokenizers import WordTokenizer
 from allennlp.models import Model
 from allennlp.predictors.predictor import Predictor
 
