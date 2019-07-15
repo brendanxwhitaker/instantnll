@@ -1,6 +1,6 @@
 # instantnll
 
-[![codecov](https://codecov.io/gh/brendanxwhitaker/instantnll/branch/dev/graph/badge.svg)](https://codecov.io/gh/brendanxwhitaker/instantnll) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/brendanxwhitaker/instantnll/blob/dev/instantnll/instant_colab.ipynb)
+[![codecov](https://codecov.io/gh/brendanxwhitaker/instantnll/branch/dev/graph/badge.svg)](https://codecov.io/gh/brendanxwhitaker/instantnll) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/brendanxwhitaker/instantnll/blob/master/instantnll/instant_colab.ipynb)
 
 In development. 
 
