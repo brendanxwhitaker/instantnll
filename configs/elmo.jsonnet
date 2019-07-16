@@ -2,14 +2,14 @@
     "dataset_reader":{
         "type": "inst_dataset_reader",
         "token_indexers": {
-        "tokens": {
-            "type": "single_id",
-            "lowercase_tokens": false
-        },
-        "elmo": {
-            "type": "elmo_characters"
+            "tokens": {
+                "type": "single_id",
+                "lowercase_tokens": false
+            },
+            "elmo": {
+                "type": "elmo_characters"
+            }
         }
-      }
     },
     "train_data_path":"../data/train_small.txt",
     "model":{
@@ -56,6 +56,7 @@
     "vocabulary":{
         "pretrained_files": {
             "tokens": "~/packages/data/instantnll/GoogleNews-vectors-negative300_SUBSET_25000.txt",
+            "elmo": "https://allennlp.s3.amazonaws.com/models/elmo/2x4096_512_2048cnn_2xhighway/elmo_2x4096_512_2048cnn_2xhighway_weights.hdf5",
         },
         "min_pretrained_embeddings": {
             "tokens": 1
