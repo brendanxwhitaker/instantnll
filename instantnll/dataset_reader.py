@@ -47,10 +47,12 @@ class InstDatasetReader(DatasetReader):
                  lazy: bool = False) -> None:
         super().__init__(lazy=False)
         self._token_indexers = token_indexers or {"tokens": SingleIdTokenIndexer()}
+        print("Dataset Reader token indexers:", self._token_indexers)
         splitter = SimpleWordSplitter()
         self._tokenizer = tokenizer or WordTokenizer(word_splitter=splitter)
         self._tokens_per_instance = tokens_per_instance
         self._lower = False
+        self.debug = True
 
     # pylint: disable=arguments-differ
     @overrides
@@ -58,7 +60,11 @@ class InstDatasetReader(DatasetReader):
         if self._lower:
             tokens = [Token(str(token).lower()) for token in tokens]
         sentence_field = TextField(tokens, self._token_indexers)
+        #===DEBUG===
+        if self.debug:
+            print("instantnll.dataset_reader.py:", sentence_field)
         fields = {"sentence": sentence_field}
+        #===DEBUG===
         if ent_types:
             label_field = SequenceLabelField(labels=ent_types, sequence_field=sentence_field)
             fields["labels"] = label_field

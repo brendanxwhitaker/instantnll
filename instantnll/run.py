@@ -22,9 +22,12 @@ def main():
         vocab_params = parms.get(key="vocabulary")
         pretrained_files_params = vocab_params.get(key="pretrained_files")
         extension_pretrained_file = pretrained_files_params.get(key="tokens")
-
-        reader = InstDatasetReader()
-        predictor = InstPredictor(model, dataset_reader=InstDatasetReader())
+        
+        # Construct the reader and predictor. 
+        reader_parms = parms.pop('dataset_reader')
+        reader_parms.pop('type')
+        reader = InstDatasetReader.from_params(params=reader_parms)
+        predictor = InstPredictor(model, dataset_reader=reader)
 
         # Get test vocab.
         test_path = "../data/validate_cities.txt"
