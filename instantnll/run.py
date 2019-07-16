@@ -30,7 +30,7 @@ def main():
         predictor = InstPredictor(model, dataset_reader=reader)
 
         # Get test vocab.
-        test_path = "../data/validate_cities.txt"
+        test_path = "../data/animals_money_validate.txt"
         # test_path = test_paths[i]
         test_dataset = reader.read(test_path) # Change to temp file.
 

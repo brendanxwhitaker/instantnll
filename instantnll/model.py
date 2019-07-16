@@ -36,7 +36,7 @@ class InstEntityTagger(Model):
 
         self.accuracy = CategoricalAccuracy()
         self.f_beta = FBetaMeasure(1.0, None, [0, 1, 2])
-        self.debug = True
+        self.debug = False
 
     #====1=========2=========3=========4=========5=========6=========7=========8=========9=========0
 

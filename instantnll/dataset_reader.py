@@ -52,7 +52,7 @@ class InstDatasetReader(DatasetReader):
         self._tokenizer = tokenizer or WordTokenizer(word_splitter=splitter)
         self._tokens_per_instance = tokens_per_instance
         self._lower = False
-        self.debug = True
+        self.debug = False
 
     # pylint: disable=arguments-differ
     @overrides
