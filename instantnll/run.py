@@ -9,7 +9,7 @@ from predictor import InstPredictor
 from dataset_reader import InstDatasetReader
 
 def main():
-    params = Params.from_file('../configs/experiment.jsonnet')
+    params = Params.from_file('../configs/elmo.jsonnet')
     parms = params.duplicate()
     serialization_dir = tempfile.mkdtemp()
     model = train_model(params, serialization_dir)
