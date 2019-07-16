@@ -11,7 +11,8 @@
             }
         }
     },
-    "train_data_path":"../data/train_small.txt",
+    "train_data_path":"../data/animals_countries_train.txt",
+    "validation_data_path":"../data/animals_countries_validate.txt",
     "model":{
         "type": "inst_entity_tagger",
         "word_embeddings": {
