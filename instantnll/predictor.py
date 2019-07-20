@@ -37,6 +37,5 @@ class InstPredictor(Predictor):
         Runs the underlying model, and adds the ``"words"`` to the output.
         """
         sentence = json_dict["sentence"]
-        print("instantnll.predictor.py:",  json_dict.keys())
         tokens = self._tokenizer.split_words(sentence)
         return self._dataset_reader.text_to_instance(tokens)

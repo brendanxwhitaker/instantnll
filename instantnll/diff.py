@@ -1,3 +1,5 @@
+import os
+import sys
 import shutil
 import tempfile
 
@@ -9,7 +11,7 @@ from predictor import InstPredictor
 from dataset_reader import InstDatasetReader
 
 def main():
-    params = Params.from_file('../configs/animals_money_classic.jsonnet')
+    params = Params.from_file('../configs/animals_money_classic_novalid.jsonnet')
     parms = params.duplicate()
     serialization_dir = tempfile.mkdtemp()
     model = train_model(params, serialization_dir)
@@ -31,8 +33,20 @@ def main():
 
         # Get test vocab.
         test_path = "../data/animals_money_validate.txt"
-        # test_path = test_paths[i]
-        test_dataset = reader.read(test_path) # Change to temp file.
+        dataset_temp_dir = tempfile.mkdtemp()
+        with open(test_path, "r") as text_file:
+            lines = text_file.readlines()
+        all_text = " ".join(lines) # Makes it all 1 batch.
+        agg_path = os.path.join(dataset_temp_dir, "dataset_agg.txt")
+        with open(agg_path, "w") as agg:
+            agg.write(all_text)        
+        test_dataset = reader.read(agg_path) # Change to temp file.
+
+        # Find gold labels.
+        print("instantnll.diff.py: test_dataset batch one labels:", test_dataset[0]['labels'])
+        label_field = test_dataset[0]['labels'] # This is iterable.
+        for label in label_field:
+            print(label)
 
         # Extend vocabulary.
         embedding_sources_mapping = {"word_embeddings.token_embedder_tokens": extension_pretrained_file}
@@ -52,13 +66,14 @@ def main():
                 tokenlist = list(instance['sentence'])
                 for i, token in enumerate(tokenlist):
                     log.write(tags[i] + str(token) + "\n")
-                    print(tags[i] + str(token))
+                    # print(tags[i] + str(token))
 
         # Allennlp seems to only support extending the vocabulary once.
         # This is a hack to modify the `old` number of embeddings at each iteration.
         extended_num_embeddings = len(model.vocab.get_index_to_token_vocabulary(namespace='tokens'))
         model.word_embeddings.token_embedder_tokens.num_embeddings = extended_num_embeddings
-
+ 
+        shutil.rmtree(dataset_temp_dir)
 
 if __name__ == '__main__':
     main()
