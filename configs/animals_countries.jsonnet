@@ -6,9 +6,6 @@
                 "type": "single_id",
                 "lowercase_tokens": false
             },
-            "elmo": {
-                "type": "elmo_characters"
-            }
         }
     },
     "train_data_path":"../data/animals_countries_train.txt",
@@ -24,21 +21,14 @@
                 "tokens": {
                     "type": "embedding",
                     "embedding_dim": 300,
-                    "pretrained_file": "~/packages/data/instantnll/GoogleNews-vectors-negative300_SUBSET_25000.txt",
-                },
-                "elmo": {
-                    "type": "elmo_token_embedder",
-                    "options_file": "https://allennlp.s3.amazonaws.com/models/elmo/2x4096_512_2048cnn_2xhighway/elmo_2x4096_512_2048cnn_2xhighway_options.json",
-                    "weight_file": "https://allennlp.s3.amazonaws.com/models/elmo/2x4096_512_2048cnn_2xhighway/elmo_2x4096_512_2048cnn_2xhighway_weights.hdf5",
-                    "do_layer_norm": false,
-                    "dropout": 0.5
+                    "pretrained_file": "~/packages/data/instantnll/GoogleNews-vectors-negative300_SUBSET_100000.txt",
                 },
             }
         },
         "encoder": {
             "type": "CosineEncoder",
             "simrel": {
-                "input_dim": 1324,
+                "input_dim": 300,
                 "num_classes": 3,
             },
         },
@@ -56,8 +46,7 @@
     },
     "vocabulary":{
         "pretrained_files": {
-            "tokens": "~/packages/data/instantnll/GoogleNews-vectors-negative300_SUBSET_25000.txt",
-            "elmo": "https://allennlp.s3.amazonaws.com/models/elmo/2x4096_512_2048cnn_2xhighway/elmo_2x4096_512_2048cnn_2xhighway_weights.hdf5",
+            "tokens": "~/packages/data/instantnll/GoogleNews-vectors-negative300_SUBSET_100000.txt",
         },
         "min_pretrained_embeddings": {
             "tokens": 1

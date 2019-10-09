@@ -36,7 +36,7 @@ class InstEntityTagger(Model):
 
         self.accuracy = CategoricalAccuracy()
         self.f_beta = FBetaMeasure(1.0, None, [0, 1, 2])
-        self.debug = False
+        self.debug = True
 
     #====1=========2=========3=========4=========5=========6=========7=========8=========9=========0
 
@@ -47,8 +47,7 @@ class InstEntityTagger(Model):
 
         #===DEBUG===
         if self.debug:
-            print("instantnll.model.py: Sentence:", sentence.keys())
-            print("instantnll.model.py: word embeddings/textfieldembedder:", self.word_embeddings._token_embedders.keys())
+            print("Labels:", labels)
         #===DEBUG===
 
         mask = get_text_field_mask(sentence)

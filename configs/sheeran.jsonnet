@@ -2,8 +2,8 @@
     "dataset_reader":{
         "type": "inst_dataset_reader",
     },
-    "train_data_path":"../data/train_small.txt",
-    "validation_data_path":"../data/validate_extended_tagged.txt",
+    "train_data_path":"../data/sheeran_train.txt",
+    "validation_data_path":"../data/sheeran_validate.txt",
     "model":{
         "type": "inst_entity_tagger",
         "word_embeddings": {
@@ -15,7 +15,7 @@
                 "tokens": {
                     "type": "embedding",
                     "embedding_dim": 300,
-                    "pretrained_file": "~/packages/data/instantnll/GoogleNews-vectors-negative300.txt",
+                    "pretrained_file": "~/packages/data/instantnll/GoogleNews-vectors-negative300_SUBSET_100000.txt",
                 },
             }
         },
@@ -23,7 +23,7 @@
             "type": "CosineEncoder",
             "simrel": {
                 "input_dim": 300,
-                "num_classes": 3,
+                "num_classes": 2,
             },
         },
     },
@@ -40,7 +40,7 @@
     },
     "vocabulary":{
         "pretrained_files": {
-            "tokens": "~/packages/data/instantnll/GoogleNews-vectors-negative300.txt",
+            "tokens": "~/packages/data/instantnll/GoogleNews-vectors-negative300_SUBSET_100000.txt",
         }
     },
 }
