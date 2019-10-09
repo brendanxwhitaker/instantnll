@@ -47,7 +47,6 @@ class InstDatasetReader(DatasetReader):
                  lazy: bool = False) -> None:
         super().__init__(lazy=False)
         self._token_indexers = token_indexers or {"tokens": SingleIdTokenIndexer()}
-        print("Dataset Reader token indexers:", self._token_indexers)
         splitter = SimpleWordSplitter()
         self._tokenizer = tokenizer or WordTokenizer(word_splitter=splitter)
         self._tokens_per_instance = tokens_per_instance
